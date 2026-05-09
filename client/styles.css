@@ -1,0 +1,148 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0f2f5;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Header ────────────────────────────────────────────── */
+.header {
+  background: #075e54;
+  color: white;
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h1 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.estado {
+  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.estado.conectado {
+  background: #25d36620;
+  color: #25d366;
+}
+
+.estado.desconectado {
+  background: #ff000020;
+  color: #ff6b6b;
+}
+
+/* ── Área de mensajes ───────────────────────────────────── */
+.area-mensajes {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Burbuja genérica */
+.mensaje {
+  max-width: 70%;
+  padding: 8px 14px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+/* Mensajes propios (alineados a la derecha) */
+.mensaje.propio {
+  background: #dcf8c6;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+/* Mensajes de otros (alineados a la izquierda) */
+.mensaje.otro {
+  background: white;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Mensajes del sistema (centrados, en gris) */
+.mensaje.sistema {
+  background: transparent;
+  color: #888;
+  font-size: 12px;
+  align-self: center;
+  font-style: italic;
+}
+
+.mensaje .autor {
+  font-size: 12px;
+  font-weight: 600;
+  color: #075e54;
+  margin-bottom: 2px;
+}
+
+.mensaje .hora {
+  font-size: 11px;
+  color: #999;
+  text-align: right;
+  margin-top: 2px;
+}
+
+/* ── Barra de envío ─────────────────────────────────────── */
+.barra-envio {
+  display: flex;
+  gap: 10px;
+  padding: 12px 16px;
+  background: white;
+  border-top: 1px solid #e0e0e0;
+}
+
+.barra-envio input {
+  flex: 1;
+  padding: 10px 16px;
+  border: 1px solid #ddd;
+  border-radius: 24px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.barra-envio input:focus {
+  border-color: #075e54;
+}
+
+.barra-envio button {
+  background: #075e54;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 24px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.barra-envio button:hover {
+  background: #128c7e;
+}
+
+.barra-envio button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}

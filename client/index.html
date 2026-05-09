@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SiscoLab Chat</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Header con nombre del chat e indicador de conexión -->
+  <header class="header">
+    <h1>SiscoLab Chat</h1>
+    <span id="estado-conexion" class="estado desconectado">🔴 Desconectado</span>
+  </header>
+
+  <!-- Área donde aparecen los mensajes -->
+  <main id="area-mensajes" class="area-mensajes">
+    <!-- Los mensajes se insertan aquí dinámicamente -->
+  </main>
+
+  <!-- Barra inferior: input + botón enviar -->
+  <footer class="barra-envio">
+    <input
+      type="text"
+      id="input-mensaje"
+      placeholder="Escribe un mensaje..."
+      autocomplete="off"
+    />
+    <button id="btn-enviar">Enviar</button>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
