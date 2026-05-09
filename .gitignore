@@ -1,0 +1,17 @@
+# Dependencias de Node
+node_modules/
+npm-debug.log*
+
+# Variables de entorno reales (NUNCA subir al repo)
+.env
+
+# Clave privada de Firebase (si alguien la descarga como archivo)
+serviceAccountKey.json
+
+# Python (por si acaso)
+__pycache__/
+*.pyc
+
+# Sistemas operativos
+.DS_Store
+Thumbs.db
