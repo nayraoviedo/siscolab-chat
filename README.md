@@ -206,6 +206,7 @@ Crear un archivo `.env` en la raíz del proyecto (ver sección siguiente).
 3. Generar nueva clave privada (descarga un `.json`)
 4. Copiar `project_id`, `private_key` y `client_email` al `.env`
 
+
 ---
 
 ## Variables de Entorno
@@ -253,6 +254,41 @@ Abre **dos o más pestañas** del navegador con la misma URL del Live Server. Ca
 
 Para detener el servidor: `Ctrl + C`
 
+### 4. Exponer el servidor con ngrok (para acceso externo)
+
+Si necesitas que otras personas se conecten desde distintas redes, usa ngrok.
+
+#### Primera vez (configuración)
+
+1. Crear cuenta en [ngrok.com](https://ngrok.com)
+2. Instalar ngrok:
+```bash
+npm install -g ngrok
+```
+3. Autenticar con tu token (se obtiene en el dashboard de ngrok):
+```bash
+ngrok config add-authtoken TU_TOKEN_AQUI
+```
+4. Agregar el dominio de ngrok en Firebase Console:
+   - **Authentication → Settings → Authorized domains → Agregar dominio**
+   - Ejemplo: `abstract-huntsman-unranked.ngrok-free.dev`
+
+#### Cada vez que quieras levantar el servidor
+
+Abrir **dos terminales CMD** (no PowerShell):
+
+**Terminal 1 — servidor Node:**
+```bash
+cd server
+node server.js
+```
+
+**Terminal 2 — ngrok:**
+```bash
+ngrok http 3000
+```
+
+La URL pública aparece en la línea `Forwarding`:
 ---
 
 ## Funcionalidades
@@ -352,3 +388,4 @@ Uso educativo — sin licencia comercial.
 
 
 > *"Micelio: la red invisible que conecta."* 🍄
+
