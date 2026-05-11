@@ -32,14 +32,14 @@ El nombre *Micelio* hace referencia a la red de hongos subterráneos que conecta
 ## Arquitectura del sistema
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                        CLIENTE (Navegador)                          │
-│                                                                     │
+┌────────────────────────────────────────────────────────────────────┐
+│                        CLIENTE (Navegador)                         │
+│                                                                    │
 │   ┌──────────────┐     ┌─────────────────┐     ┌───────────────┐   │
-│   │  index.html  │────▶│    app.js        │────▶│  Firebase JS  │   │
+│   │  index.html  │────▶│    app.js       │────▶│  Firebase JS │   │
 │   │  styles.css  │     │  (WebSocket +   │     │  (Auth SDK)   │   │
 │   └──────────────┘     │   Auth Client)  │     └──────┬────────┘   │
-│                         └────────┬────────┘            │            │
+│                        └────────┬────────┘            │            │
 └────────────────────────────────┬─┴────────────────────┼────────────┘
                                  │ WebSocket             │ OAuth2
                                  │ ws://host:3000/ws     │
@@ -349,6 +349,5 @@ Uso educativo — sin licencia comercial.
 
 
 
-> *"Micelio: la red invisible que conecta."* 🍄
 
 > *"Micelio: la red invisible que conecta."* 🍄
