@@ -45,17 +45,17 @@ El nombre *Micelio* hace referencia a la red de hongos subterráneos que conecta
                                  │ ws://host:3000/ws     │
                                  ▼                       ▼
 ┌────────────────────────────────────────┐   ┌──────────────────────┐
-│           SERVIDOR (Node.js)           │   │   FIREBASE SERVICES   │
+│           SERVIDOR (Node.js)           │   │   FIREBASE SERVICES  │
 │                                        │   │                      │
 │   ┌────────────────────────────────┐   │   │  ┌────────────────┐  │
 │   │         server.js              │   │   │  │  Firebase Auth │  │
 │   │                                │   │   │  │  (Google IAM)  │  │
-│   │  ┌──────────┐  ┌───────────┐  │   │   │  └────────────────┘  │
-│   │  │ HTTP     │  │ WebSocket │  │   │   │                      │
-│   │  │ Server   │  │ Server    │  │   │   │  ┌────────────────┐  │
-│   │  │ (static) │  │ (wss)     │  │   │   │  │   Firestore    │  │
-│   │  └──────────┘  └─────┬─────┘  │   │   │  │  (Historial)   │  │
-│   └───────────────────────┼────────┘   │   │  └────────────────┘  │
+│   │  ┌──────────┐  ┌───────────┐   │   │   │  └────────────────┘  │
+│   │  │ HTTP     │  │ WebSocket │   │   │   │                      │
+│   │  │ Server   │  │ Server    │   │   │   │ ┌────────────────┐   │
+│   │  │ (static) │  │ (wss)     │   │   │   │ │   Firestore    │   │
+│   │  └──────────┘  └─────┬─────┘   │   │   │ │  (Historial)   │   │
+│   └───────────────────────┼────────┘   │   │ └────────────────┘   │
 │                           │            │   └──────────────────────┘
 │   ┌───────────────────────▼────────┐   │
 │   │        firebase.js (Admin)     │───┼──────────────────────────▶
@@ -73,7 +73,7 @@ CLIENTE                                          SERVIDOR
    │                                                 │
    │──── Conexión WebSocket (ws://host:3000/ws) ────▶│
    │                                                 │
-   │◀─── {tipo: "bienvenida", texto: "Eres         │
+   │◀─── {tipo: "bienvenida", texto: "Eres          │
    │      Usuario_XXX"}                              │
    │                                                 │
    │◀─── {tipo: "historial", mensajes: [...]}       │ ← Últimos 20 msgs de Firestore
@@ -81,10 +81,10 @@ CLIENTE                                          SERVIDOR
    │──── {tipo: "cambioNombre", nombre: "Juan"} ───▶│
    │                                                 │
    │                         ┌──────────────────────▶│ broadcast a TODOS:
-   │◀────────────────────────┤ {tipo: "sistema",     │  "Juan se unió al chat"
+   │◀────────────────────────┤ {tipo: "sistema",     │  "Walter se unió al chat"
    │                         └──────────────────────▶│
    │                                                 │
-   │◀─── {tipo: "usuarios", lista: ["Juan",…]}      │ ← Lista actualizada
+   │◀─── {tipo: "usuarios", lista: ["Walter",…]}      │ ← Lista actualizada
    │                                                 │
    │──── {tipo: "mensaje", texto: "Hola!"} ────────▶│
    │                                                 │──▶ Guarda en Firestore
@@ -101,15 +101,16 @@ CLIENTE                                          SERVIDOR
 
 ---
 
+
 ## Flujo de autenticación
 
 ```
 USUARIO          CLIENTE                FIREBASE AUTH           SERVIDOR WS
    │                │                        │                       │
-   │──▶ Clic en     │                        │                       │
+   │──▶ Clic en    │                        │                       │
    │   "Iniciar     │                        │                       │
    │   con Google"  │                        │                       │
-   │                │──▶ signInWithPopup() ─▶│                       │
+   │                │──▶ signInWithPopup() ─▶│                      │
    │                │                        │                       │
    │◀─── Ventana Google OAuth ─────────────▶│                       │
    │                │                        │                       │
@@ -134,16 +135,16 @@ Sin Google → el servidor asigna "Usuario_XXX" automáticamente
 ## Estructura del proyecto
 
 ```
-nexochat/
+micelio/
 │
-├── client/                   # Frontend (SPA)
+├── client/                   # Frontend 
 │   ├── index.html            # Interfaz principal del chat
 │   ├── styles.css            # Estilos 
 │   └── app.js                # Lógica cliente: WebSocket + Firebase Auth
 │
 ├── server/                   # Backend (Node.js)
 │   ├── server.js             # Servidor HTTP + WebSocket
-│   └── firebase.js           # Inicialización Firebase Admin SDK
+│   └── firebase.js           # Inicialización de Firebase Admin SDK
 │
 ├── .env                      # Variables de entorno 
 ├── .gitignore
@@ -168,12 +169,13 @@ nexochat/
 
 ---
 
-## Requisitos Previos
+## Requisitos previos
 
 - [Node.js](https://nodejs.org/) v18 o superior
 - Cuenta de Google con un proyecto Firebase creado
 - Firestore habilitado en el proyecto Firebase
 - Autenticación Google habilitada en Firebase Auth
+- Tener instalado Live Server como extensión en Visual Studio Code (No es indispensable)
 
 ---
 
@@ -205,7 +207,7 @@ Crear un archivo `.env` en la raíz del proyecto (ver sección siguiente).
 
 ---
 
-## Variables de entorno
+## Variables de Entorno
 
 Crear el archivo `.env` en la raíz con el siguiente contenido:
 
@@ -217,22 +219,36 @@ FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nTU_CLAVE_PRIVADA\n-----END PR
 FIREBASE_CLIENT_EMAIL=firebase-adminsdk-xxxx@tu-proyecto.iam.gserviceaccount.com
 ```
 
-> ⚠️ **Nunca subir el archivo `.env` al repositorio.** Está incluido en `.gitignore`.
+> ⚠️ **Nunca subir el archivo `.env` al repositorio.** Este debe estar incluido en `.gitignore`.
 
 ---
 
 ## Ejecución
 
+### 1. Iniciar el servidor
+
 ```bash
 node server/server.js
 ```
 
-Luego abrir en el navegador o usar la extensión de live server en vs code, hacer click derecho en index, y abrir archivo con 
-live server:
+Si todo está correcto, verás en la terminal:
 
 ```
-http://localhost:3000
+Servidor en http://localhost:3000
+WebSocket en ws://localhost:3000/ws
 ```
+
+### 2. Abrir el cliente
+
+Abre el archivo `client/index.html` con **Live Server** desde VS Code:
+
+> Clic derecho sobre `index.html` → **Open with Live Server**
+
+> ⚠️ **No abras el archivo directamente con doble clic** — los módulos ES6 y las conexiones WebSocket requieren que el HTML se sirva desde un servidor HTTP.
+
+### 3. Probar el chat
+
+Abre **dos o más pestañas** del navegador con la misma URL del Live Server. Cada pestaña será un usuario distinto, si y solo si no te conectas en Google, en el caso de que te autentiques tendrás que usar otro navegador o pestaña de incognito para que te reconozca como otro usuario. Con todo eso listo, podrás chatear entre ellas en tiempo real.
 
 Para detener el servidor: `Ctrl + C`
 
@@ -265,29 +281,74 @@ Todos los mensajes se envían como JSON.
 | `bienvenida` | `texto` | Nombre temporal asignado |
 | `historial` | `mensajes[]` | Últimos 20 mensajes de Firestore |
 | `mensaje` | `autor`, `texto`, `hora` | Nuevo mensaje de un usuario |
-| `sistema` | `texto` | Notificación del sistema (si se une al chat/si deja el chat) |
+| `sistema` | `texto` | Notificación del sistema (join/leave) |
 | `usuarios` | `lista[]` | Lista actualizada de conectados |
 
 ### Cliente → Servidor
 
-| `tipo`         | Campos adicionales | Descripción |
-|----------------|-------------------|-------------|
-| `cambioNombre` | `nombre`          | Confirmar/cambiar nombre de usuario |
-| `mensaje`      | `texto`           | Enviar un mensaje al chat |
+| `tipo` | Campos adicionales | Descripción |
+|--------|-------------------|-------------|
+| `cambioNombre` | `nombre` | Confirmar/cambiar nombre de usuario |
+| `mensaje` | `texto` | Enviar un mensaje al chat |
 
 ---
 
-## Equipo de Desarrollo
+## Equipo de desarrollo
 
-Desarrollado como proyecto académico para la materia de **Arquitectura de Software**.
+Desarrollado como proyecto para la materia de **Sistemas colaborativos**.
 
-| Integrante | Rol |
-|------------|-----|
-| [Nombre 1] | Backend / WebSocket Server |
-| [Nombre 2] | Frontend / UI |
-| [Nombre 3] | Firebase / Auth |
-| [Nombre 4] | Documentación / Testing |
+| Integrante | Contribuciones principales |
+|------------|---------------------------|
+| **Andy Santiago Rocha Claure** | Configuración inicial del repositorio, estructura del proyecto, documentación (README) |
+| **小丽花** | Implementación del servidor WebSocket, integración Firebase Auth + Firestore, correcciones de bugs (nombre de usuario, lectura de historial, clave expuesta) |
+| **Lenny Zoraida Calle Machaca** | Persistencia de mensajes y recuperación del historial, eliminación de clave de servicio expuesta |
+| **Jhonatan Ortuño Caceres** | Cliente web y conexión WebSocket |
+| **OB-789** | Gestión de usuarios y presencia, generador de nombres temporales |
+| **Onmipresent1** | Estructura estándar del chat |
+| **202010014-png** | Agregación de autenticación con Google |
+
+### Historial de commits por integrante
+
+**Andy Santiago Rocha Claure**
+- `Initial commit` — estructura base del repositorio
+- `docs: actualizar README con integrantes y descripcion`
+- `Merge pull request #1 from SaantinoCorleone/configuracion-repositorio-y-estructura-...`
+
+**小丽花** Nayra Oviedo Paco
+- `Implementación del servidor-de WebSocket`
+- `Merge branch 'Jhonatan-INT-01-cliente-web' into walter-autenticacion`
+- `Mejora del chat con firebase`
+- `Corrección de error de base de datos, auth y clave de exposición expuesta`
+- `Merge branch 'walter-autenticacion' of https://github.com/SaantinoCorleone/SisCola...`
+- `fix: remove exposed service account key`
+- `Correciones de nombre de usuario al momento de entrar y salir, corrección de la lectura...`
+
+**Lenny Zoraida Calle Machaca**
+- `feat: add message persistence and history retrieval`
+- `Remove exposed service account key`
+
+**Jhonatan Ortuño Caceres**
+- `feat: implementar cliente web y conexion WebSocket`
+
+**OB-789** Orlando Condori Balderrama
+- `feat(Gestion de usurios y presencia): Se implemento generador de nombres temporal...`
+
+**Onmipresent1** Mannuel Antonio Guzman 
+- `implementacion de estructura estandar para el chat`
+- `Merge branch 'walter-autenticacion' of https://github.com/SaantinoCorleone/SisCola...`
+
+**202010014-png** Walter Bullain Muñoz
+- `AGRGACION DE AUTENTICACION CON GOOGLE`
 
 ---
+
+## Licencia
+
+Proyecto académico desarrollado para la materia de **Sistemas Colaborativos de la UMSS**.  
+Uso educativo — sin licencia comercial.
+
+
+
+> *"Micelio: la red invisible que conecta."* 🍄
 
 > *"Micelio: la red invisible que conecta."* 🍄
