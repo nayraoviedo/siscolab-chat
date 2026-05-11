@@ -18,6 +18,7 @@
 - [Ejecución](#ejecución)
 - [Funcionalidades](#funcionalidades)
 - [Protocolo de mensajes webSocket](#protocolo-de-mensajes-websocket)
+- [Equipo de desarrollo](#equipo-de-desarrollo)
 
 ---
 
@@ -314,7 +315,7 @@ Desarrollado como proyecto para la materia de **Sistemas colaborativos**.
 - `docs: actualizar README con integrantes y descripcion`
 - `Merge pull request #1 from SaantinoCorleone/configuracion-repositorio-y-estructura-...`
 
-**小丽花** Nayra Oviedo Paco
+**小丽花**  Nayra Oviedo Paco
 - `Implementación del servidor-de WebSocket`
 - `Merge branch 'Jhonatan-INT-01-cliente-web' into walter-autenticacion`
 - `Mejora del chat con firebase`
