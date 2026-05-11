@@ -1,10 +1,10 @@
-# 🍄 Micelio Chat — Chat colaborativo en tiempo Real
+# 🍄 Micelio Chat — Chat colaborativo en tiempo real
 
 > Sistema de mensajería instantánea para equipos, con autenticación Google y persistencia en Firestore.
 
----
+--
 
-## 📋 Tabla de Contenidos
+## 📋 Tabla de contenidos
 
 - [Descripción](#descripción)
 - [Arquitectura del sistema](#arquitectura-del-sistema)
